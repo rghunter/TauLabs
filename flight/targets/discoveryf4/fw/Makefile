@@ -34,6 +34,7 @@ DEBUG ?= NO
 # List of modules to include
 MODULES += FirmwareIAP 
 MODULES += Telemetry
+MODULES += Altitude
 
 
 # Paths
