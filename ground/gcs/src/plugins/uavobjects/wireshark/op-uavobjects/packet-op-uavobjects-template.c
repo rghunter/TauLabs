@@ -49,7 +49,12 @@ $(ENUMFIELDNAMES)
 
 void proto_reg_handoff_op_uavobjects_$(NAMELC)(void);
 
-static int dissect_uavo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree)
+static int
+#if defined(VERSION_MAJOR) && (VERSION_MAJOR > 1 || (VERSION_MAJOR == 1 && VERSION_MINOR > 8))
+dissect_uavo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *data _U_)
+#else
+dissect_uavo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree)
+#endif
 {
   int offset = 0;
 
@@ -108,5 +113,5 @@ void proto_reg_handoff_op_uavobjects_$(NAMELC)(void)
    uavo_handle = new_create_dissector_handle(dissect_uavo, proto_uavo);
 
    /* Bind this protocol to its UAV ObjID in UAVTalk */
-   dissector_add("uavtalk.objid", $(OBJIDHEX), uavo_handle);
+   dissector_add_uint("uavtalk.objid", $(OBJIDHEX), uavo_handle);
 }

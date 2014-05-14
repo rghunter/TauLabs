@@ -66,7 +66,12 @@ void proto_reg_handoff_op_uavtalk(void);
 
 #define UAVTALK_HEADER_SIZE 8
 #define UAVTALK_TRAILER_SIZE 1
-static int dissect_op_uavtalk(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree)
+static int
+#if defined(VERSION_MAJOR) && (VERSION_MAJOR > 1 || (VERSION_MAJOR == 1 && VERSION_MINOR > 8))
+dissect_op_uavtalk(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *data _U_)
+#else
+dissect_op_uavtalk(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree)
+#endif
 {
   gint offset = 0;
 
